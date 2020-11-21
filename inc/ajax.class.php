@@ -82,7 +82,8 @@ class mindEventsAjax {
       $date = $_POST['date'];
       $eventID = $_POST['eventid'];
 
-      $meta = $this->reArrayMeta($_POST['meta']['event']);
+      $mindEventsAjax = new mindEventsAjax();
+      $meta = $mindEventsAjax->reArrayMeta($_POST['meta']['event']);
 
       $event = new mindEventCalendar($eventID);
 
@@ -100,7 +101,7 @@ class mindEventsAjax {
         $added_events[] = $added_event_id;
 
         $insideHTML = '<div class="event ' . (MINDRETURNS_IS_MOBILE ? 'mobile' : '') . '">';
-          $insideHTML .= '<span style="background:' . $meta['eventColor'] . '; color:' . $this->getContrastColor($meta['eventColor']) . ';" data-subid = ' . $added_event_id . ' class="new">';
+          $insideHTML .= '<span style="background:' . $meta['eventColor'] . '; color:' . $mindEventsAjax->getContrastColor($meta['eventColor']) . ';" data-subid = ' . $added_event_id . ' class="new">';
             $insideHTML .= $meta['starttime'] . '-' . $meta['endtime'];
           $insideHTML .= '</span>';
           if(is_admin()) :
@@ -222,7 +223,7 @@ class mindEventsAjax {
 
       $id = $_POST['eventid'];
       $event = new mindEventCalendar($_POST['parentid'], $_POST['meta']['event_date']);
-      $meta = $this->reArrayMeta($_POST['meta']);
+      $meta = $mindEventsAjax->reArrayMeta($_POST['meta']);
       $event->update_sub_event($id, $meta, $_POST['parentid']);
       $return = array(
         'html' => $event->get_calendar()
@@ -268,7 +269,7 @@ class mindEventsAjax {
     if($_POST['action'] == MINDRETURNS_PREPEND . 'editevent'){
       $eventID = $_POST['eventid'];
       $return = array(
-        'html' => $this->get_meta_form($eventID, $_POST['parentid'])
+        'html' => $mindEventsAjax->get_meta_form($eventID, $_POST['parentid'])
       );
       wp_send_json_success($return);
     }
